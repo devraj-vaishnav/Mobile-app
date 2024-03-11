@@ -1,17 +1,19 @@
 <?php
-namespace App\Http\Controllers\User;
-use Illuminate\Support\Facades\Auth;
+
+namespace App\Http\Controllers\admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+
 class ProfileController extends Controller
 {
-    public function profile(){
+    public function index(){
         $user = Auth::user();
-        return view('user.profile',compact('user'));
+        return view('admin.profile',compact('user'));
     }
-
     public function update(Request $request,$id){
         $request->validate([
             'name'=>'required',
@@ -21,9 +23,10 @@ class ProfileController extends Controller
         $update->name=$request['name'];
         $update->email=$request['email'];
         $update->save();
-        return redirect('profile');
+        return redirect('profile/index');
     }
-    public function forgot(Request $request,$id){
+
+    public function password(Request $request,$id){
 
         $request->validate([
             'old_password' => 'required',
@@ -33,10 +36,13 @@ class ProfileController extends Controller
        if(Hash::check($request->old_password,$data->password)){
          $data->password= Hash::make($request->password);
          $data->save();
-         return redirect(url('profile'));
+         return redirect(route('profile/index'));
        }
        else{
-        return redirect(url('profile'));
+         return redirect(route('profile/index'));
        }
     }
+
+
 }
+

@@ -20,7 +20,7 @@
         <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <!-- App Css-->
         <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
-
+      @stack('header_script')
     </head>
 
     <body data-sidebar="dark">
@@ -102,6 +102,7 @@
         <script src="{{asset('assets/libs/node-waves/waves.min.js')}}"></script>
 
         <script src="{{asset('assets/js/app.js')}}"></script>
+        @stack('footer_script')
 
     </body>
 

@@ -1,10 +1,6 @@
 @extends('admin\layouts.app')
 @section('title', 'Add User')
 @section('main-content')
-<div class="main-content">
-
-    <div class="page-content">
-        <div class="container-fluid">
 
             <!-- start page title -->
             <div class="row">
@@ -67,8 +63,5 @@
                 </div>
             </div>
 
-        </div> <!-- container-fluid -->
-    </div>
-    <!-- End Page-content -->
-</div>
+  
 @endsection

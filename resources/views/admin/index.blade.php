@@ -1,10 +1,6 @@
 @extends('admin\layouts.app')
 @section('title', 'Dashboard')
 @section('main-content')
-<div class="main-content">
-
-    <div class="page-content">
-        <div class="container-fluid">
 
             <!-- start page title -->
             <div class="row">
@@ -44,6 +40,7 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
+                                        <td><a href="{{route('user/delete',$user->id)}}" class="btn btn-danger">Delete</a></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -53,9 +50,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div> <!-- container-fluid -->
-</div>
+ 
 <!-- End Page-content -->
 </div>
 @endsection

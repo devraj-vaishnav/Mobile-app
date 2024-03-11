@@ -141,7 +141,6 @@
                                 <!-- item-->
                                 <a class="dropdown-item" href="{{route('profile')}}"><i class="ri-user-line align-middle mr-1"></i> Profile</a>
                                
-                                <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle mr-1"></i> Lock screen</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

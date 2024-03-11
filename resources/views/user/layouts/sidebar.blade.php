@@ -9,5 +9,17 @@
                 <span>Dashboard</span>
             </a>
         </li>
+        <li>
+            <a href="{{route('expense/index')}}" class="waves-effect">
+                <i class="ri-store-2-line"></i>
+                <span>Expense</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{route('income/index')}}" class="waves-effect">
+                <i class="ri-money-dollar-circle-line"></i>
+                <span>Income</span>
+            </a>
+        </li>
     </ul>
 </div>
