@@ -2,7 +2,7 @@
 @section('title', 'Add User')
 @section('main-content')
 
-            <!-- start page title -->
+            
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -44,19 +44,14 @@
                                         <label for="input-date1">Password  <samp class="text-danger">*</samp></label>
                                         <input id="text" class="form-control input-mask" name="password" required >
                                         <samp class="text-danger">{{$errors->first('password')}}</samp>
-
                                     </div>
                                     <div class="col-lg-6 mt-4">
                                         <label for="input-date1">Confirm Password<samp class="text-danger">*</samp></label>
                                         <input id="text" class="form-control input-mask" name="password_confirmation" required >
                                         <samp class="text-danger">{{$errors->first('password_confirmation')}}</samp>
-
                                     </div>
-
                                 </div>
                                 <button class="btn btn-primary mt-3">Submit</button>
-                                  
-
                             </form>
                         </div>
                     </div>
