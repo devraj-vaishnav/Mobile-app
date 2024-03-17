@@ -11,7 +11,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{route('admin/index')}}"
-                                        class="btn btn-primary text-white">Back</a></li>
+                                        class="btn btn-primary text-white"><i class="ri-arrow-left-fill"></i></a></li>
                             </ol>
                         </div>
                     </div>
@@ -57,6 +57,4 @@
                     </div>
                 </div>
             </div>
-
-  
 @endsection

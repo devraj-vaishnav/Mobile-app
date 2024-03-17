@@ -7,7 +7,10 @@
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0">Add Expense</h4>
                         <div class="page-title-right">
-                           
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a class="btn btn-primary text-white"
+                                        href="{{route('expense/index')}}"><i class="ri-arrow-left-circle-line"></i></a></li>
+                            </ol>
                         </div>
 
                     </div>
@@ -21,13 +24,13 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>Expanse Name</label>
-                                    <input type="hidden" class=" form-control" name="user_id"  value="{{$user->id}}">
-                                    <input type="text" class=" form-control" name="name"  value="{{old('name')}}">
+                                    {{-- <input type="hidden" class=" form-control" name="user_id"  value="{{$user->id}}"> --}}
+                                    <input type="text" class=" form-control" name="name"  value="{{old('name')}}" required>
                                     <samp class="text-danger">{{$errors->first('name')}}</samp>
                                 </div>
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input type="number" class="form-control"  name="price" value="{{old('price')}}">
+                                    <input type="number" class="form-control"  name="price" value="{{old('price')}}" required>
                                     <samp class="text-danger">{{$errors->first('price')}}</samp>
 
                                 </div>

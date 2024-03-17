@@ -28,8 +28,14 @@ class UserController extends Controller
      $data->assignRole('user');
      return redirect('admin/index');
     }
-    public function delete($id){
-        User::where('id',$id)->delete();
-        return redirect('admin/index');
+    // public function delete($id){
+    //     User::where('id',$id)->delete();
+    //     return redirect('admin/index');
+    // }
+    public function destory($id){
+        $product= User::find($id);
+        $product->delete();
+        return response()->json(['success',200]);
     }
+    
 }

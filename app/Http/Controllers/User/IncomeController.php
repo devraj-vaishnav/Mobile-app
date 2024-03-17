@@ -33,6 +33,8 @@ class IncomeController extends Controller
       $data->description = $request->description;
       $data->user_id=$user->id;
       $data->save();
+      session()->flash('success_msg', " Successfully Added New  Income ");
+
       return redirect('income/index');
     }
     //  public function delete($id){
@@ -61,7 +63,10 @@ class IncomeController extends Controller
       $update->date=date('Y-m-d',strtotime($request->date));
       $update->description=$request->description;
       $update->save();
+      session()->flash('success_msg', " Successfully Update Income ");
+
       return redirect('income/index');
+      
 
      }
 
