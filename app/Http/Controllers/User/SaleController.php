@@ -91,9 +91,11 @@ class SaleController extends Controller
     {
         $sale = Sale::find($id);
         $saleOrders = SaleOrder::where('customer_id', $id)->get();
+//        $total=SaleOrder::where('customer_id', $id)->sum('total');
+        $total = SaleOrder::where('customer_id', $id)->sum('total');
         $userId = Auth::id();
         $products = Product::where('user_id', $userId)->get();
-        return view('user.sale.edit', compact('sale', 'saleOrders', 'products'));
+        return view('user.sale.edit', compact('sale', 'saleOrders', 'products','total'));
     }
 
     public function update(Request $request, $id)
@@ -122,7 +124,7 @@ class SaleController extends Controller
         if (isset($products[0])) {
         foreach ($products as $key => $product) {
             if (!isset($old[$key])) {
-                // Create new sale order 
+                // Create new sale order
                 $saleorder = new SaleOrder;
                 $saleorder->customer_id = $sale->id;
                 $saleorder->product_id = $product;
@@ -149,5 +151,5 @@ class SaleController extends Controller
         $sale->delete();
         return response()->json(['success', 200]);
     }
-    
+
 }

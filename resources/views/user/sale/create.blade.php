@@ -96,8 +96,8 @@
                                 </td>
                                 <td> <input type="text" id="price1" name="price[]" class="form-control"
                                         placeholder="Price" required></td>
-                                <td> <input type="text" id="qty1" name="quality[]" class="form-control"
-                                        placeholder="Quality"required></td>
+                                <td> <input type="text" id="qty1" name="quality[]" class="form-control qty"
+                                        placeholder="Quality" required></td>
                                 <td> <input type="text" id="total1" name="total[]" class="form-control"
                                         placeholder="Total" required></td>
                             </tr>
@@ -105,6 +105,34 @@
                         <tbody id="addInput">
                         </tbody>
                     </table>
+
+
+                    <div class="row">
+                        <div class="col-sm-4 ">
+
+                        </div>
+
+                            <div class="col-md-3 offset-5">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body overflow-hidden">
+                                                <p class="text-truncate font-size-14 mb-2">Average Price</p>
+                                                <h4 class="mb-0">$ 15.4</h4>
+                                            </div>
+                                            <div class="text-primary">
+                                                <i class="ri-briefcase-4-line font-size-24"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+{{--                            <h3 id="totalsum">Total Sum {{$total}} </h3>--}}
+                            <h3 id="totalSum">Add +  </h3>
+
+                        </div>
+                    </div>
                     <button class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -115,6 +143,23 @@
 @push('footer_script')
 {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script> --}}
 <script src="{{asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+
+<script>
+    $(document).ready(function(){
+        $('.qty1').on('input', function(){
+            var total = 0;
+            $('.qty1').each(function(){
+                var val = parseFloat($(this).val());
+                if (!isNaN(val)) {
+                    total += val;
+                }
+            });
+            $('#totalSum').text('Total Sum: ' + total);
+        });
+    });
+</script>
+
+
 
 <script>
     $('#productname1').on('change', function () {
@@ -148,51 +193,72 @@ $('#qty1').keyup(function () {
         var total=Number(qty*price);
         $("#total1").val(total);
     });
-  
     $(document).ready(function () {
-        var i=2;
-$("#button").on('click', function () {
-    let rowData = "<tr>";
-    rowData += "<td>"+i+"</td>";
-    rowData += "<td> <select name='product_id[]' class='form-control' id='productname"+i+"' > <option value=''>Select Product</option>  @foreach ($products as $product)  <option value='{{$product->id}}'>{{$product->product_name}}</option> @endforeach </select></td>";
-    rowData += "<td><input type='number'  name='price[]' id='price"+i+"'  placeholder='Price....' class='form-control' ></td>";
-    rowData += "<td><input type='number'  name='quality[]' id='qty"+i+"'  placeholder='qty....' class='form-control' ></td>";
-    rowData += "<td><input type='number'  name='total[]' id='total"+i+"'  placeholder='total....' class='form-control' ></td>";
-    rowData += "<td><button class='btn btn-danger btn-sm' id='deleteRow' type='button'>Delete</button></td>";
-    rowData += "</tr>"
-    $("#addInput").append(rowData);
-    i++; 
-    $("select[id^=productname]").on('change', function () {
-       var id = $(this).val();
-       var last_num = $(this).attr('id').slice(-1);
-           $.ajax({
-        url: "{{route('sale/getData')}}",
-        type: 'GET',
-        data: { id: id },
-        success: function (response) {
-       $("#price"+last_num).val(response);
-        }
-    });
-});
-$("input[id^=qty]").keyup(function () {
-        var qty = Number($(this).val());
-        var last_num = $(this).attr('id').slice(-1);
-        var price = Number($("#price" + last_num).val());
-        $("#total" + last_num).val(qty * price);
-    });
-    $("input[id^=price]").keyup(function () {
-        var price = Number($(this).val());
-        var last_num = $(this).attr('id').slice(-1);
-        var qty = Number($("#qty" + last_num).val());
-        $("#total" + last_num).val(qty * price);
-    });
-});
-});
+    var i = 2;
 
-   $("table#datatable").on("click", "#deleteRow", function (event) {
-            $(this).closest("tr").remove();
+    $("#button").on('click', function () {
+        let rowData = "<tr>";
+        rowData += "<td>" + i + "</td>";
+        rowData += "<td> <select name='product_id[]' class='form-control' id='productname" + i + "' > <option value=''>Select Product</option>  @foreach ($products as $product)  <option value='{{$product->id}}'>{{$product->product_name}}</option> @endforeach </select></td>";
+        rowData += "<td><input type='number'  name='price[]' id='price" + i + "'  placeholder='Price....' class='form-control' ></td>";
+        rowData += "<td><input type='number'  name='quality[]' id='qty" + i + "'  placeholder='qty....' class='form-control qty' ></td>";
+        rowData += "<td><input type='number'  name='total[]' id='total" + i + "'  placeholder='total....' class='form-control' ></td>";
+        rowData += "<td><button class='btn btn-danger btn-sm deleteRow' type='button'><i class='mdi mdi-trash-can d-block font-size-16'></i></button></td>";
+        rowData += "</tr>";
+        $("#addInput").append(rowData);
+        i++;
+
+        $("select[id^=productname]").on('change', function () {
+            var id = $(this).val();
+            var last_num = $(this).attr('id').slice(-1);
+            $.ajax({
+                url: "{{route('sale/getData')}}",
+                type: 'GET',
+                data: { id: id },
+                success: function (response) {
+                    $("#price" + last_num).val(response);
+                }
+            });
         });
+
+        $("input[id^=qty]").keyup(function () {
+            var qty = Number($(this).val());
+            var last_num = $(this).attr('id').slice(-1);
+            var price = Number($("#price" + last_num).val());
+            $("#total" + last_num).val(qty * price);
+        });
+
+        $("input[id^=price]").keyup(function () {
+            var price = Number($(this).val());
+            var last_num = $(this).attr('id').slice(-1);
+            var qty = Number($("#qty" + last_num).val());
+            $("#total" + last_num).val(qty * price);
+        });
+        $(document).on("click", ".deleteRow", function() {
+        $(this).closest("tr").remove();
+        });
+    });
+
+    // Binding the delete button click event outside of the add button click event
+    $("table#datatable").on("click", ".deleteRow", function (event) {
+        $(this).closest("tr").remove();
+    });
+});
 
 </script>
 
+<script>
+    $(document).ready(function(){
+        $('.qty').on('keyup', function(){
+            var total = 0;
+            $('.qty').each(function(){
+                var val = parseFloat($(this).val());
+                if (!isNaN(val)) {
+                    total += val;
+                }
+            });
+            $('#totalSum').text('Total Sum: ' + total);
+        });
+    });
+</script>
 @endpush
