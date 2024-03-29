@@ -114,34 +114,22 @@
                                                 value="{{$saleOrder->quality}}" class="form-control"
                                                 placeholder="Quality" required></td>
                                         <td> <input type="text" id="total{{$u}}" name="total[]"
-                                                value="{{$saleOrder->total}}" class="form-control total" placeholder="Total"
+                                                value="{{$saleOrder->total}}" class="form-control" placeholder="Total"
                                                 required readonly></td>
                                         <td>
                                             <button  onclick="deleteIt({{$saleOrder->id}})" type="button" class="btn btn-danger"><i
-                                                class="mdi mdi-trash-can d-block font-size-16"></i></button>
-
+                                                class="mdi mdi-trash-can d-block font-size-16"></i></button> 
+                                            {{-- <button  class="btn btn-danger waves-effect waves-light" title="Delete"><i class="mdi mdi-trash-can d-block font-size-16"></i></button></td> --}}
                                     </tr>
                                     @php
                                     $u++;
                                     @endphp
                                     @endforeach
+
                                 </thead>
                                 <tbody id="addInput">
                                 </tbody>
-
                             </table>
-                            <div class="row">
-                                <div class="col-sm-4 ">
-
-                                </div>
-
-                                <div class="col-sm-3 offset-5">
-                                    <h3 id="totalsum">Total Sum {{$total}} </h3>
-                                    <h3 id="alltotal">Add +  </h3>
-
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 
@@ -159,21 +147,6 @@
 
 {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script> --}}
 <script src="{{asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
-<script>
-    $(document).ready(function(){
-        $('.total').on('input', function(){
-            var total = 0;
-            $('.total').each(function(){
-                var val = parseFloat($(this).val());
-                console.log(total);
-                if (!isNaN(val)) {
-                    total += val;
-                }
-            });
-            $('#totalSum').text('Total Sum: ' + total);
-        });
-    });
-</script>
 
 <script>
     $(function() {
@@ -209,6 +182,7 @@
                 $("#total" + last_num).val(qty * price);
             });
 
+  
     $(document).ready(function () {
         @php
                 $i = $u + 1;
@@ -218,14 +192,13 @@
 $("#button").on('click', function () {
     let rowData = "<tr>";
     rowData += "<td>"+i+"</td>";
-    rowData += "<td> <select name='product_id[]' class='form-control' id='productname"+i+"'required> <option value=''>Select Product</option>  @foreach ($products as $product)  <option value='{{$product->id}}'>{{$product->product_name}}</option> @endforeach </select></td>";
-    rowData += "<td><input type='number'  name='price[]' id='price"+i+"'  placeholder='Price....' class='form-control' required></td>";
-    rowData += "<td><input type='number'  name='quality[]' id='qty"+i+"'  placeholder='qty....' class='form-control' required></td>";
-    rowData += "<td><input type='number'  name='total[]' id='total"+i+"'  placeholder='total....' class='form-control' readonly></td>";
-    rowData += "<td><button class='btn btn-danger btn-sm deleteRow' type='button'><i class='mdi mdi-trash-can d-block font-size-16'></i></button></td>";
+    rowData += "<td> <select name='product_id[]' class='form-control' id='productname"+i+"' > <option value=''>Select Product</option>  @foreach ($products as $product)  <option value='{{$product->id}}'>{{$product->product_name}}</option> @endforeach </select></td>";
+    rowData += "<td><input type='number'  name='price[]' id='price"+i+"'  placeholder='Price....' class='form-control' ></td>";
+    rowData += "<td><input type='number'  name='quality[]' id='qty"+i+"'  placeholder='qty....' class='form-control' ></td>";
+    rowData += "<td><input type='number'  name='total[]' id='total"+i+"'  placeholder='total....' class='form-control' ></td>";
     rowData += "</tr>"
     $("#addInput").append(rowData);
-    i++;
+    i++; 
     $("select[id^=productname]").on('change', function () {
        var id = $(this).val();
        var last_num = $(this).attr('id').slice(-1);
@@ -244,20 +217,17 @@ $("input[id^=qty]").keyup(function () {
         var price = Number($("#price" + last_num).val());
         $("#total" + last_num).val(qty * price);
     });
-
     $("input[id^=price]").keyup(function () {
         var price = Number($(this).val());
         var last_num = $(this).attr('id').slice(-1);
         var qty = Number($("#qty" + last_num).val());
         $("#total" + last_num).val(qty * price);
     });
-    $(document).on("click", ".deleteRow", function() {
-        $(this).closest("tr").remove();
-        });
 });
 });
 
 </script>
+
 <script>
     function deleteIt(id) {
         $.ajax({
@@ -266,15 +236,14 @@ $("input[id^=qty]").keyup(function () {
             dataType: 'JSON',
             data: {
                 "_token": "{{ csrf_token() }}"
-            },
-            success: function(response) {
-                // console.log("Delete request successful");
-                // Remove the row from the DOM
-                $('#row_' + id).remove();
-                // Reload the page
-                location.reload();
             }
+        }).done(function(response) {
+            // Handle success response if needed
+            console.log("Delete request successful");
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            // Handle error response if needed
+            console.error("Delete request failed:", textStatus, errorThrown);
         });
     }
 </script>
-@endpush
+@endpush 
